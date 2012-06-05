@@ -90,10 +90,22 @@ public class GetMojo
     	if (cl_url!=null) { try {
 			url = new URL(cl_url);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			throw new MojoExecutionException("Malformed URL", e);
 		} } 
+    	
+    	if (url==null) {
+    		// determine from project properties
+    		// should be something like http://bnehyp03.dev.randomnoun/cgi-bin/apps.pl?action=deploy&machine=bnetst04&app=fbbackup-web&env=tst
+    		try {
+				url = new URL("http://bnehyp03.dev.randomnoun/cgi-bin/apps.pl" +
+					"?action=deploy" +
+					"&machine=bnetst04" +
+					"&app=" + project.getArtifactId() +
+					"&env=tst");
+			} catch (MalformedURLException e) {
+				throw new MojoExecutionException("Malformed URL", e);
+			}
+    	}
     	
     	getLog().info("GET " + url.toString());
     	try {
