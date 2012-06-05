@@ -18,11 +18,16 @@ package com.randomnoun.build.mojo.httpRequest;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
+import org.apache.maven.settings.Settings;
+import org.apache.maven.execution.MavenSession;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 /**
  * Goal which performs a HTTP GET.
@@ -32,6 +37,42 @@ import java.net.URL;
 public class GetMojo
     extends AbstractMojo
 {
+	// from http://grepcode.com/file_/repo1.maven.org/maven2/org.kuali.maven.plugins/maven-cloudfront-plugin/1.1.0/org/kuali/maven/mojo/s3/BaseMojo.java/?v=source
+	
+	 /**
+     * The Maven project this plugin runs in.
+     *
+     * @parameter expression="${project}"
+     * @required
+     * @readonly
+     */
+    private MavenProject project;
+
+    /**
+     * @parameter expression="${settings}"
+     * @required
+     * @since 1.0
+     * @readonly
+     */
+    private Settings settings;
+
+    /**
+     * @parameter default-value="${session}"
+     * @required
+     * @readonly
+     */
+    private MavenSession mavenSession;
+
+    /*
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        if (skipMojo()) {
+            return;
+        }
+        executeMojo();
+    }
+    */
+    
+    
 	/**
      * @parameter expression="${get.url}"
      */
@@ -40,6 +81,17 @@ public class GetMojo
     public void execute()
         throws MojoExecutionException
     {
+    	
+    	Properties commandLine = getMavenSession().getExecutionProperties();
+    	String cl_url = commandLine.getProperty("url");
+    	if (cl_url!=null) { try {
+			url = new URL(cl_url);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			throw new MojoExecutionException("Malformed URL", e);
+		} } 
+    	
     	getLog().info("GET " + url.toString());
     	try {
     		url.getContent();
@@ -47,4 +99,51 @@ public class GetMojo
     		getLog().info("Exception occurred retrieving URL", e);
     	}
     }
+
+
+    /**
+     * @return the project
+     */
+    public MavenProject getProject() {
+        return project;
+    }
+
+    /**
+     * @param project
+     * the project to set
+     */
+    public void setProject(final MavenProject project) {
+        this.project = project;
+    }
+
+    /**
+     * @return the settings
+     */
+    public Settings getSettings() {
+        return settings;
+    }
+
+    /**
+     * @param settings
+     * the settings to set
+     */
+    public void setSettings(final Settings settings) {
+        this.settings = settings;
+    }
+
+    /**
+     * @return the mavenSession
+     */
+    public MavenSession getMavenSession() {
+        return mavenSession;
+    }
+
+    /**
+     * @param mavenSession
+     * the mavenSession to set
+     */
+    public void setMavenSession(final MavenSession mavenSession) {
+        this.mavenSession = mavenSession;
+    }
+    
 }
