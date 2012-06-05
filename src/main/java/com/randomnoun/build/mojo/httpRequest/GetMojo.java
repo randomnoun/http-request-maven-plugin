@@ -22,9 +22,12 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Settings;
 import org.apache.maven.execution.MavenSession;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
@@ -94,11 +97,25 @@ public class GetMojo
     	
     	getLog().info("GET " + url.toString());
     	try {
-    		url.getContent();
+    		InputStream is = url.openStream();
+    		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    		copyStream(is, baos, 4096);
+    		getLog().info(baos.toString());
     	} catch (Exception e) {
     		getLog().info("Exception occurred retrieving URL", e);
     	}
     }
+    
+    public static void copyStream(InputStream input, OutputStream output, int bufSize)
+            throws IOException {
+            int bytesRead;
+            byte[] buffer = new byte[bufSize];
+
+            while ((bytesRead = input.read(buffer)) != -1) {
+                output.write(buffer, 0, bytesRead);
+                output.flush();
+            }
+        }
 
 
     /**
