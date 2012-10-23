@@ -33,7 +33,9 @@ import java.net.URL;
 import java.util.Properties;
 
 /**
- * Goal which performs a HTTP GET.
+ * Maven goal which performs a HTTP GET.
+ * 
+ * <p>Well this is certainly easier than using Makefiles.
  *
  * @goal get
  */
