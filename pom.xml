@@ -70,12 +70,12 @@
     <repository>
         <id>releases</id>
         <name>randomnoun releases</name>
-        <url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/releases/</url>
+        <url>http://nexus2.dev.randomnoun:8082/nexus/content/repositories/releases/</url>
     </repository>
     <snapshotRepository>
         <id>snapshots</id>
         <name>randomnoun snapshots</name>
-        <url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/snapshots/</url>
+        <url>http://nexus2.dev.randomnoun:8082/nexus/content/repositories/snapshots/</url>
         <uniqueVersion>false</uniqueVersion>
     </snapshotRepository>
   </distributionManagement>
@@ -83,4 +83,41 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
   
+  <build>
+  	<pluginManagement>
+  		<plugins>
+  			<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+  			<plugin>
+  				<groupId>org.eclipse.m2e</groupId>
+  				<artifactId>lifecycle-mapping</artifactId>
+  				<version>1.0.0</version>
+  				<configuration>
+  					<lifecycleMappingMetadata>
+  						<pluginExecutions>
+  							<pluginExecution>
+  								<pluginExecutionFilter>
+  									<groupId>
+  										org.apache.maven.plugins
+  									</groupId>
+  									<artifactId>
+  										maven-plugin-plugin
+  									</artifactId>
+  									<versionRange>
+  										[3.2,)
+  									</versionRange>
+  									<goals>
+  										<goal>descriptor</goal>
+  									</goals>
+  								</pluginExecutionFilter>
+  								<action>
+  									<ignore></ignore>
+  								</action>
+  							</pluginExecution>
+  						</pluginExecutions>
+  					</lifecycleMappingMetadata>
+  				</configuration>
+  			</plugin>
+  		</plugins>
+  	</pluginManagement>
+  </build>
 </project>
