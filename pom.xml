@@ -123,7 +123,7 @@
   <scm>
 	<connection>scm:git:ssh://git@gitlab.dev.randomnoun:2222/randomnoun/http-request-maven-plugin.git</connection>
 	<developerConnection>scm:git:ssh://git@gitlab.dev.randomnoun:2222/randomnoun/http-request-maven-plugin.git</developerConnection>
-	<url>http://gitlab.dev.randomonun/randomnoun/http-request-maven-plugin</url>
+	<url>http://gitlab.dev.randomnoun/randomnoun/http-request-maven-plugin</url>
   </scm>
   
 </project>
