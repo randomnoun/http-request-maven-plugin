@@ -1,5 +1,15 @@
 package com.randomnoun.build.mojo.httpRequest;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Properties;
+
+import org.apache.maven.execution.MavenSession;
+
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
  *
@@ -20,17 +30,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Settings;
-import org.apache.maven.execution.MavenSession;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Properties;
 
 /**
  * Maven goal which performs a HTTP GET.
@@ -96,17 +95,7 @@ public class GetMojo
 		} } 
     	
     	if (url==null) {
-    		// determine from project properties
-    		// should be something like http://bnehyp03.dev.randomnoun/cgi-bin/apps.pl?action=deploy&machine=bnetst04&app=fbbackup-web&env=tst
-    		try {
-				url = new URL("http://bnehyp03.dev.randomnoun/cgi-bin/apps.pl" +
-					"?action=deploy" +
-					"&machine=bnetst04" +
-					"&app=" + project.getArtifactId() +
-					"&env=tst");
-			} catch (MalformedURLException e) {
-				throw new MojoExecutionException("Malformed URL", e);
-			}
+    		throw new MojoExecutionException("Missing URL");
     	}
     	
     	getLog().info("GET " + url.toString());
